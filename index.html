@@ -326,40 +326,6 @@
       box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
     }
 
-    .case-note {
-      margin-top: 2px;
-      font-size: 0.6rem;
-      color: var(--text-muted);
-    }
-
-    .case-note strong {
-      color: var(--accent);
-    }
-
-    /* Stock-on-hand pills */
-    .stock-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 1px 6px;
-      border-radius: 999px;
-      font-size: 0.6rem;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      margin-left: 4px;
-    }
-
-    .stock-ok {
-      color: #bbf7d0;
-      border-color: rgba(34, 197, 94, 0.7);
-      background: rgba(22, 163, 74, 0.2);
-    }
-
-    .stock-none {
-      color: #fecaca;
-      border-color: rgba(248, 113, 113, 0.9);
-      background: rgba(127, 29, 29, 0.3);
-    }
-
     tr:nth-child(even) td {
       background: rgba(15, 23, 42, 0.8);
     }
@@ -506,8 +472,7 @@
             <div>
               <div class="card-title">Styles & Sizes</div>
               <div class="card-subtitle">
-                Only currently available sizes are editable. Case-pack hints
-                and stock-on-hand show under each editable size.
+                Only currently available sizes are editable. Enter pairs by size for each style.
               </div>
             </div>
             <div class="badge-soft">
@@ -577,42 +542,12 @@
 
     const CATALOG = {
       "parks": [
-        {
-          "id": "appleton",
-          "name": "Altitude Appleton",
-          "city": "Appleton",
-          "state": "WI"
-        },
-        {
-          "id": "gastonia",
-          "name": "Altitude Gastonia",
-          "city": "Gastonia",
-          "state": "NC"
-        },
-        {
-          "id": "lombard",
-          "name": "Altitude Lombard",
-          "city": "Lombard",
-          "state": "IL"
-        },
-        {
-          "id": "pueblo",
-          "name": "Altitude Pueblo",
-          "city": "Pueblo",
-          "state": "CO"
-        },
-        {
-          "id": "sanjose",
-          "name": "Altitude San Jose",
-          "city": "San Jose",
-          "state": "CA"
-        },
-        {
-          "id": "york",
-          "name": "Altitude York",
-          "city": "York",
-          "state": "PA"
-        }
+        {"id": "appleton","name": "Altitude Appleton","city": "Appleton","state": "WI"},
+        {"id": "gastonia","name": "Altitude Gastonia","city": "Gastonia","state": "NC"},
+        {"id": "lombard","name": "Altitude Lombard","city": "Lombard","state": "IL"},
+        {"id": "pueblo","name": "Altitude Pueblo","city": "Pueblo","state": "CO"},
+        {"id": "sanjose","name": "Altitude San Jose","city": "San Jose","state": "CA"},
+        {"id": "york","name": "Altitude York","city": "York","state": "PA"}
       ],
       "styles": [
         {
@@ -684,13 +619,7 @@
       ],
       "casePacks": {
         "defaultMain": {
-          "I": 360,
-          "T": 240,
-          "S": 220,
-          "M": 200,
-          "L": 180,
-          "XL": 170,
-          "XXL": 170
+          "I": 360,"T": 240,"S": 220,"M": 200,"L": 180,"XL": 170,"XXL": 170
         },
         "byStyle": {
           "sapphire": "defaultMain",
@@ -701,9 +630,9 @@
           "leopard": "defaultMain",
           "tiger": "defaultMain",
           "blueblack": "defaultMain",
-          "skyblue": { "T": 300, "S": 300 },
-          "purple": { "M": 300 },
-          "partybag": { "ONESIZE": 100 }
+          "skyblue": {"T": 300,"S": 300},
+          "purple": {"M": 300},
+          "partybag": {"ONESIZE": 100}
         }
       }
     };
@@ -723,19 +652,6 @@
         "purple":   { "M": false },
         "partybag": { "ONESIZE": true }
       }
-    };
-
-    // Stock on hand (true/false) per style/size
-    const STOCK_ON_HAND = {
-      "sapphire": { "I": true,  "T": false,"S": false,"M": false,"L": true, "XL": true, "XXL": true },
-      "bliss":    { "I": false, "T": false,"S": false,"M": false,"L": false,"XL": true, "XXL": false },
-      "onyx":     { "I": false, "T": false,"S": false,"M": false,"L": true, "XL": true, "XXL": true },
-      "leopard":  { "I": false, "T": false,"S": false,"M": false,"L": true, "XL": true, "XXL": true },
-      "tiger":    { "I": true,  "T": true, "S": true, "M": true, "L": true, "XL": true, "XXL": true },
-      "blueblack":{ "I": true,  "T": false,"S": false,"M": false,"L": false,"XL": false,"XXL": true },
-      "skyblue":  { "T": true, "S": true },
-      "purple":   { "M": true },
-      "partybag": { "ONESIZE": true }
     };
 
     const SIZE_ORDER = ["I", "T", "S", "M", "L", "XL", "XXL", "ONESIZE"];
@@ -841,7 +757,6 @@
 
         const availStyles = (AVAILABILITY && AVAILABILITY.styles) || {};
         const styleAvail = availStyles[style.id] || {};
-        const stockStyle = (STOCK_ON_HAND && STOCK_ON_HAND[style.id]) || {};
 
         SIZE_ORDER.forEach(sizeCode => {
           const td = document.createElement("td");
@@ -859,34 +774,8 @@
             input.dataset.styleId = style.id;
             input.dataset.size = sizeCode;
 
-            const pack = getCasePack(style.id, sizeCode);
-            if (pack) {
-              input.placeholder = String(pack);
-            }
-
             input.addEventListener("input", handleInputChanged);
-
             td.appendChild(input);
-
-            const packNote = document.createElement("div");
-            packNote.className = "case-note";
-
-            const inStock = stockStyle.hasOwnProperty(sizeCode)
-              ? stockStyle[sizeCode]
-              : null;
-
-            const bits = [];
-            if (pack) {
-              bits.push(`Case: <strong>${pack}</strong>`);
-            }
-            if (inStock === true) {
-              bits.push('<span class="stock-pill stock-ok">On hand</span>');
-            } else if (inStock === false) {
-              bits.push('<span class="stock-pill stock-none">None on hand</span>');
-            }
-
-            packNote.innerHTML = bits.join(" · ");
-            td.appendChild(packNote);
           } else {
             td.classList.add("disabled");
             td.textContent = "";
