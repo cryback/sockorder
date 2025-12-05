@@ -2,23 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>AMG Sock Order</title>
+  <title>Altitude — GM Sock Ordering</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root {
       color-scheme: light dark;
+
       --bg: #f5f5f7;
       --card-bg: #ffffff;
-      --border-subtle: rgba(0,0,0,0.06);
       --accent: #007aff;
-      --accent-soft: rgba(0,122,255,0.06);
+      --accent-soft: rgba(0, 122, 255, 0.08);
+      --border-subtle: rgba(0, 0, 0, 0.06);
+      --border-strong: rgba(148, 163, 184, 0.6);
       --text-main: #111827;
       --text-muted: #6b7280;
-      --danger: #dc2626;
-      --radius-xl: 22px;
+      --radius-lg: 22px;
       --radius-md: 12px;
-      --shadow-soft: 0 18px 40px rgba(15,23,42,0.12);
-      --shadow-tiny: 0 1px 3px rgba(15,23,42,0.08);
+      --shadow-soft: 0 22px 45px rgba(15, 23, 42, 0.18);
+      --shadow-tiny: 0 1px 3px rgba(15, 23, 42, 0.08);
     }
 
     * {
@@ -28,958 +29,1147 @@
 
     body {
       margin: 0;
-      padding: 24px;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont,
-        "SF Pro Text", "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #e5e7eb 0, #f5f5f7 55%);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding: 18px;
+      background: radial-gradient(circle at top, #e5e7eb 0, #f5f5f7 60%);
       color: var(--text-main);
     }
 
-    .page {
-      max-width: 1120px;
-      margin: 0 auto;
+    .app-shell {
+      width: 100%;
+      max-width: 1200px;
+      margin: auto;
+      background: var(--card-bg);
+      border-radius: 28px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      padding: 20px 22px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
     }
 
-    header {
+    /* HEADER */
+
+    header.app-header {
       display: flex;
-      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 16px;
       justify-content: space-between;
-      gap: 18px;
-      margin-bottom: 24px;
+      align-items: center;
+    }
+
+    .title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .title-block h1 {
-      margin: 0 0 6px;
-      font-size: 1.9rem;
+      font-size: 1.6rem;
       font-weight: 650;
-      letter-spacing: 0.02em;
-    }
-
-    .title-block p {
       margin: 0;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      max-width: 420px;
+      letter-spacing: 0.02em;
+      display: flex;
+      gap: 10px;
+      align-items: center;
     }
 
-    .badge {
+    .title-pill {
+      font-size: 0.72rem;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(0, 122, 255, 0.45);
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .title-sub {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 0.8rem;
+    }
+
+    label {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    select,
+    button {
+      font: inherit;
+    }
+
+    select {
+      background: #f9fafb;
+      color: var(--text-main);
+      border-radius: 999px;
+      padding: 6px 12px;
+      border: 1px solid var(--border-strong);
+      min-width: 210px;
+      outline: none;
+      font-size: 0.9rem;
+      appearance: none;
+      background-image:
+        linear-gradient(45deg, transparent 50%, #9ca3af 50%),
+        linear-gradient(135deg, #9ca3af 50%, transparent 50%);
+      background-position:
+        calc(100% - 16px) calc(50% - 3px),
+        calc(100% - 11px) calc(50% - 3px);
+      background-size:
+        6px 6px,
+        6px 6px;
+      background-repeat: no-repeat;
+    }
+
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(0, 122, 255, 0.3);
+      background-color: #ffffff;
+    }
+
+    .pill-info {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .pill-info strong {
+      color: var(--accent);
+    }
+
+    button {
+      border-radius: 999px;
+      border: 1px solid var(--border-strong);
+      background: #111827;
+      color: #f9fafb;
+      padding: 7px 14px;
+      cursor: pointer;
+      font-size: 0.85rem;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.5);
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-muted);
-      background: rgba(255,255,255,0.9);
-      box-shadow: var(--shadow-tiny);
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.25);
+      transition: transform 0.08s ease, box-shadow 0.08s ease,
+        background 0.1s ease, border-color 0.1s ease;
     }
 
-    .badge-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #22c55e;
+    button:hover {
+      background: #020617;
+      border-color: #020617;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.35);
+      transform: translateY(-0.5px);
     }
 
-    .layout {
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.28);
+    }
+
+    button.secondary {
+      background: #f9fafb;
+      color: var(--text-main);
+      border-style: dashed;
+      box-shadow: none;
+    }
+
+    button.secondary:hover {
+      background: #ffffff;
+      border-style: solid;
+    }
+
+    /* LAYOUT */
+
+    main {
       display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-      gap: 18px;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.3fr);
+      gap: 16px;
       align-items: flex-start;
     }
 
-    @media (max-width: 840px) {
-      body {
-        padding: 16px;
-      }
-      .layout {
-        grid-template-columns: 1fr;
+    @media (max-width: 980px) {
+      main {
+        grid-template-columns: minmax(0, 1fr);
       }
     }
+
+    /* CARDS */
 
     .card {
       background: var(--card-bg);
-      border-radius: var(--radius-xl);
-      padding: 18px 20px 20px;
+      border-radius: var(--radius-lg);
       border: 1px solid var(--border-subtle);
+      padding: 14px 14px 16px;
       box-shadow: var(--shadow-soft);
+      position: relative;
     }
 
-    .card + .card {
-      margin-top: 10px;
+    .card-inner {
+      position: relative;
+      z-index: 1;
     }
 
-    .card h2 {
-      margin: 0 0 10px;
-      font-size: 1rem;
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--text-muted);
     }
 
-    .card h2 span {
-      font-weight: 400;
-      letter-spacing: normal;
-      text-transform: none;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .section {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
-      gap: 12px 16px;
-      margin-bottom: 6px;
-    }
-
-    label {
-      display: block;
+    .card-subtitle {
       font-size: 0.8rem;
-      font-weight: 500;
-      margin-bottom: 4px;
-      color: #4b5563;
-    }
-
-    .field {
-      display: flex;
-      flex-direction: column;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="number"],
-    select,
-    textarea {
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(148,163,184,0.6);
-      padding: 9px 10px;
-      font-size: 0.9rem;
-      font-family: inherit;
-      color: var(--text-main);
-      background: rgba(255,255,255,0.96);
-      outline: none;
-      transition: border-color 0.12s ease, box-shadow 0.12s ease,
-        background 0.12s ease, transform 0.05s ease;
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 70px;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(0,122,255,0.35);
-    }
-
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-
-    select {
-      appearance: none;
-      background-image:
-        linear-gradient(45deg, transparent 50%, #9ca3af 50%),
-        linear-gradient(135deg, #9ca3af 50%, transparent 50%);
-      background-position:
-        calc(100% - 14px) calc(50% - 3px),
-        calc(100% - 10px) calc(50% - 3px);
-      background-size:
-        5px 5px,
-        5px 5px;
-      background-repeat: no-repeat;
-      padding-right: 28px;
-    }
-
-    .hint {
-      margin-top: 3px;
-      font-size: 0.75rem;
       color: var(--text-muted);
+      margin-top: 2px;
     }
 
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px;
-    }
-
-    .pill-toggle {
+    .badge-soft {
+      padding: 4px 10px;
       border-radius: 999px;
-      padding: 4px 9px;
-      border: 1px solid rgba(148,163,184,0.7);
+      background: #f9fafb;
+      border: 1px solid var(--border-strong);
       font-size: 0.8rem;
-      background: rgba(248,250,252,0.95);
-      color: #374151;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      transition: border-color 0.12s ease, background 0.12s ease,
-        transform 0.05s ease;
+      color: var(--text-muted);
+      box-shadow: var(--shadow-tiny);
     }
 
-    .pill-toggle input {
-      display: none;
+    .badge-soft strong {
+      color: var(--accent);
     }
 
-    .pill-toggle-active {
-      border-color: var(--accent);
-      background: var(--accent-soft);
-      color: #0f172a;
+    /* TABLE */
+
+    .table-wrapper {
+      border-radius: 18px;
+      border: 1px solid rgba(229, 231, 235, 0.9);
+      background: #f9fafb;
+      overflow: auto;
     }
 
-    .pill-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #9ca3af;
-    }
-
-    .pill-toggle-active .pill-dot {
-      background: var(--accent);
-    }
-
-    .sizes-grid {
-      margin-top: 6px;
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(209,213,219,0.8);
-      overflow: hidden;
-      background: rgba(249,250,251,0.92);
-    }
-
-    .sizes-header,
-    .sizes-row {
-      display: grid;
-      grid-template-columns: 0.9fr repeat(6, 0.7fr);
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 720px;
       font-size: 0.78rem;
     }
 
-    .sizes-header div {
-      padding: 6px 7px;
+    thead {
+      background: #f3f4f6;
+      box-shadow: 0 1px 0 rgba(229, 231, 235, 0.9);
+    }
+
+    th,
+    td {
+      padding: 6px 8px;
+      border-bottom: 1px solid rgba(229, 231, 235, 0.9);
       text-align: center;
+      white-space: nowrap;
+    }
+
+    th {
       font-weight: 500;
-      color: #6b7280;
-      border-bottom: 1px solid rgba(209,213,219,0.9);
+      color: var(--text-muted);
     }
 
-    .sizes-header div:first-child {
+    th:first-child,
+    td:first-child {
       text-align: left;
-      padding-left: 8px;
     }
 
-    .sizes-row div {
-      padding: 4px 7px;
-      border-top: 1px solid rgba(243,244,246,0.9);
-      text-align: center;
+    th.style-col {
+      min-width: 130px;
     }
 
-    .sizes-row div:first-child {
-      text-align: left;
-      padding-left: 8px;
-      color: #4b5563;
+    th.size-col,
+    td.size-col {
+      min-width: 70px;
     }
 
-    .sizes-row input[type="number"] {
-      width: 100%;
+    th.total-col,
+    td.total-col {
+      min-width: 80px;
+    }
+
+    td.style-name {
+      font-weight: 500;
+      color: var(--text-main);
+    }
+
+    td.image-cell {
+      position: relative;
+      padding: 6px;
+      min-width: 80px;
+    }
+
+    td.image-cell img {
+      width: 48px;
+      height: 48px;
+      object-fit: cover;
+      border-radius: 14px;
+      border: 1px solid rgba(209, 213, 219, 0.9);
+      display: block;
+      margin: 0 auto;
+      box-shadow: var(--shadow-tiny);
+    }
+
+    td.image-cell small {
+      display: block;
+      margin-top: 3px;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+
+    input[type="number"] {
+      width: 56px;
+      padding: 3px 4px;
       border-radius: 999px;
-      padding: 4px 6px;
-      font-size: 0.8rem;
-      border-color: rgba(209,213,219,0.9);
+      border: 1px solid rgba(209, 213, 219, 0.9);
       background: #ffffff;
+      color: var(--text-main);
+      text-align: center;
+      font-size: 0.78rem;
+      outline: none;
     }
 
-    .footer-row {
+    input[type="number"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(0, 122, 255, 0.3);
+    }
+
+    td.disabled {
+      opacity: 0.22;
+      font-size: 0.65rem;
+    }
+
+    td.style-total {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    tr:nth-child(even) td {
+      background: #f9fafb;
+    }
+
+    tr:hover td {
+      background: #e5f2ff;
+    }
+
+    /* SUMMARY SIDE */
+
+    .summary-grid {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
       gap: 10px;
-      margin-top: 10px;
-    }
-
-    .small-muted {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    .primary-button {
-      border: none;
-      border-radius: 999px;
-      padding: 10px 18px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      background: #111827;
-      color: #f9fafb;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 8px 18px rgba(15,23,42,0.35);
-      transition: transform 0.08s ease, box-shadow 0.08s ease,
-        background 0.12s ease;
-    }
-
-    .primary-button span {
-      display: inline-block;
-      transform: translateY(0.5px);
-    }
-
-    .primary-button:hover {
-      background: #020617;
-      transform: translateY(-1px);
-      box-shadow: 0 12px 26px rgba(15,23,42,0.4);
-    }
-
-    .primary-button:active {
-      transform: translateY(0);
-      box-shadow: 0 4px 10px rgba(15,23,42,0.3);
-    }
-
-    .primary-button:disabled {
-      opacity: 0.4;
-      cursor: default;
-      transform: none;
-      box-shadow: none;
-    }
-
-    .summary-card {
-      position: sticky;
-      top: 14px;
-    }
-
-    .summary-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 6px;
-      margin-bottom: 6px;
-    }
-
-    .summary-header h2 {
-      margin: 0;
-      font-size: 0.95rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-muted);
-    }
-
-    .summary-chip {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .summary-main-number {
-      font-size: 2rem;
-      font-weight: 650;
-      margin: 0;
-    }
-
-    .summary-main-number span {
-      font-size: 1rem;
-      font-weight: 400;
-      color: var(--text-muted);
-      margin-left: 4px;
-    }
-
-    .summary-subline {
-      margin-top: 4px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-    }
-
-    .divider {
-      height: 1px;
-      margin: 10px -6px 8px;
-      background: rgba(229,231,235,0.9);
-    }
-
-    .summary-section-title {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      margin-bottom: 3px;
     }
 
     .summary-row {
       display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      font-size: 0.8rem;
-      margin-bottom: 3px;
-    }
-
-    .summary-row strong {
-      font-weight: 500;
-    }
-
-    .summary-tag {
-      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 8px;
       align-items: center;
-      gap: 6px;
-      padding: 3px 7px;
+      justify-content: space-between;
+    }
+
+    .summary-kpis {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .kpi {
+      padding: 6px 10px;
       border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.6);
-      background: rgba(248,250,252,0.95);
-      font-size: 0.76rem;
-      color: #374151;
+      background: #f9fafb;
+      border: 1px solid var(--border-strong);
+      font-size: 0.8rem;
+      display: inline-flex;
+      gap: 6px;
+      align-items: baseline;
     }
 
-    .summary-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: #6b7280;
+    .kpi span.label {
+      color: var(--text-muted);
     }
 
-    .summary-tag-primary .summary-dot {
-      background: var(--accent);
+    .kpi span.value {
+      font-weight: 600;
+      color: var(--accent);
     }
 
-    .error {
-      color: var(--danger);
+    .order-text-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 180px;
+      resize: vertical;
+      border-radius: 16px;
+      border: 1px solid rgba(209, 213, 219, 0.9);
+      background: #f9fafb;
+      color: var(--text-main);
       font-size: 0.78rem;
-      margin-top: 3px;
-      display: none;
+      padding: 10px;
+      font-family: ui-monospace, Menlo, Monaco, "SF Mono", Consolas,
+        "Liberation Mono", "Courier New", monospace;
+      outline: none;
     }
 
-    .error-visible {
-      display: block;
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(0, 122, 255, 0.3);
+      background: #ffffff;
     }
+
+    .order-helper {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .order-helper code {
+      font-family: ui-monospace, Menlo, Monaco, "SF Mono", Consolas,
+        "Liberation Mono", "Courier New", monospace;
+      font-size: 0.7rem;
+      background: #eef2ff;
+      padding: 1px 4px;
+      border-radius: 6px;
+      border: 1px solid rgba(199, 210, 254, 0.9);
+    }
+
+    .copy-status {
+      font-size: 0.78rem;
+      color: var(--accent);
+      min-height: 1em;
+    }
+
+    /* RESPONSIVE TWEAKS */
+
+    @media (max-width: 700px) {
+      body {
+        padding: 12px;
+      }
+      .app-shell {
+        padding: 14px 14px 16px;
+        border-radius: 18px;
+      }
+      header.app-header {
+        align-items: flex-start;
+      }
+    }
+
+    /* DARK MODE */
 
     @media (prefers-color-scheme: dark) {
       body {
-        background: radial-gradient(circle at top, #111827 0, #020617 55%);
+        background: radial-gradient(circle at top, #111827 0, #020617 60%);
+        color: #e5e7eb;
       }
+
+      .app-shell {
+        background: #020617;
+        border-color: rgba(31, 41, 55, 0.9);
+      }
+
+      .title-sub,
+      .pill-info,
+      .card-subtitle,
+      .order-helper,
+      .copy-status {
+        color: #9ca3af;
+      }
+
+      select {
+        background: rgba(15, 23, 42, 0.96);
+        border-color: rgba(55, 65, 81, 0.9);
+        color: #e5e7eb;
+      }
+
+      button.secondary {
+        background: rgba(15, 23, 42, 0.96);
+        color: #e5e7eb;
+        border-color: rgba(75, 85, 99, 0.9);
+      }
+
       .card {
         background: #020617;
-        border-color: rgba(31,41,55,0.9);
+        border-color: rgba(31, 41, 55, 0.9);
       }
-      input, select, textarea {
-        background: rgba(15,23,42,0.96);
-        color: #e5e7eb;
-        border-color: rgba(55,65,81,0.9);
-      }
-      .sizes-grid {
-        background: rgba(15,23,42,0.92);
-        border-color: rgba(55,65,81,0.9);
-      }
-      .sizes-header div {
-        border-bottom-color: rgba(55,65,81,0.9);
-      }
-      .sizes-row div {
-        border-top-color: rgba(31,41,55,0.9);
-      }
-      .summary-tag {
-        background: rgba(15,23,42,0.9);
-        border-color: rgba(55,65,81,0.9);
+
+      .badge-soft {
+        background: rgba(15, 23, 42, 0.96);
+        border-color: rgba(55, 65, 81, 0.9);
         color: #e5e7eb;
       }
-      .pill-toggle {
-        background: rgba(17,24,39,0.96);
+
+      .table-wrapper {
+        background: rgba(15, 23, 42, 0.96);
+        border-color: rgba(55, 65, 81, 0.9);
+      }
+
+      thead {
+        background: rgba(31, 41, 55, 0.95);
+        box-shadow: 0 1px 0 rgba(55, 65, 81, 0.9);
+      }
+
+      th,
+      td {
+        border-bottom-color: rgba(55, 65, 81, 0.9);
+      }
+
+      td.style-name {
         color: #e5e7eb;
-        border-color: rgba(75,85,99,0.9);
       }
-      .pill-toggle-active {
-        background: rgba(37,99,235,0.32);
+
+      td.image-cell img {
+        border-color: rgba(75, 85, 99, 0.9);
       }
-      .divider {
-        background: rgba(31,41,55,0.9);
+
+      tr:nth-child(even) td {
+        background: rgba(15, 23, 42, 0.96);
+      }
+
+      tr:hover td {
+        background: rgba(37, 99, 235, 0.32);
+      }
+
+      input[type="number"] {
+        background: rgba(15, 23, 42, 0.98);
+        border-color: rgba(55, 65, 81, 0.9);
+        color: #e5e7eb;
+      }
+
+      .kpi {
+        background: rgba(15, 23, 42, 0.96);
+        border-color: rgba(55, 65, 81, 0.9);
+      }
+
+      textarea {
+        background: rgba(15, 23, 42, 0.98);
+        border-color: rgba(55, 65, 81, 0.9);
+        color: #e5e7eb;
+      }
+
+      .order-helper code {
+        background: rgba(15, 23, 42, 0.96);
+        border-color: rgba(55, 65, 81, 0.9);
+        color: #e5e7eb;
       }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <header>
+  <div class="app-shell">
+    <header class="app-header">
       <div class="title-block">
-        <h1>AMG Sock Order</h1>
-        <p>
-          A clean, single-view form for ordering staff socks across parks.
-          Designed to be fast to fill out during a busy shift.
-        </p>
+        <h1>
+          Altitude Socks
+          <span class="title-pill">GM Ordering Sheet</span>
+        </h1>
+        <div class="title-sub">
+          Type your pairs by size. We’ll total everything and format an order
+          you can paste into email or your vendor portal.
+        </div>
       </div>
-      <div>
-        <div class="badge">
-          <span class="badge-dot"></span>
-          <span>Live summary</span>
+
+      <div class="controls">
+        <div class="field-group">
+          <label for="parkSelect">Park location</label>
+          <select id="parkSelect">
+            <option value="">Select your park…</option>
+          </select>
+          <div class="pill-info" id="availabilityStamp"></div>
+        </div>
+
+        <div class="field-group">
+          <label>&nbsp;</label>
+          <button id="clearAllBtn" class="secondary" type="button">
+            ⟲ Clear all quantities
+          </button>
         </div>
       </div>
     </header>
 
-    <div class="layout">
-      <!-- LEFT: FORM -->
-      <div>
-        <!-- Section 1: Who's ordering -->
-        <section class="card">
-          <h2>1 · Order details <span>Who is requesting these socks?</span></h2>
-          <div class="section">
-            <div class="field">
-              <label for="park">Park location</label>
-              <select id="park">
-                <option value="">Select park…</option>
-                <option>Appleton</option>
-                <option>Austell</option>
-                <option>Gastonia</option>
-                <option>Huntsville</option>
-                <option>Lawrenceville</option>
-                <option>Lombard</option>
-                <option>Nashville</option>
-                <option>Pueblo</option>
-                <option>San Jose</option>
-                <option>York</option>
-              </select>
-              <div class="hint">This will appear on the order summary.</div>
-              <div id="parkError" class="error">Please choose a park.</div>
-            </div>
-
-            <div class="field">
-              <label for="contactName">Your name</label>
-              <input id="contactName" type="text" placeholder="e.g. Sydney Taylor" />
-              <div class="hint">Person we contact if we have questions.</div>
-            </div>
-
-            <div class="field">
-              <label for="contactEmail">Email</label>
-              <input id="contactEmail" type="email" inputmode="email" placeholder="name@altitudetrampolinepark.com" />
-              <div class="hint">Optional, but helpful for confirmation.</div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Section 2: Sock details -->
-        <section class="card">
-          <h2>2 · Sock details <span>What are you ordering?</span></h2>
-
-          <div class="section">
-            <div class="field">
-              <label>Sock type</label>
-              <div class="pill-row" id="sockTypeGroup">
-                <label class="pill-toggle pill-toggle-active">
-                  <input type="radio" name="sockType" value="Standard Grip" checked />
-                  <span class="pill-dot"></span>
-                  <span>Standard Grip</span>
-                </label>
-                <label class="pill-toggle">
-                  <input type="radio" name="sockType" value="Toddler Grip" />
-                  <span class="pill-dot"></span>
-                  <span>Toddler Grip</span>
-                </label>
-                <label class="pill-toggle">
-                  <input type="radio" name="sockType" value="Premium / Logo" />
-                  <span class="pill-dot"></span>
-                  <span>Premium / Logo</span>
-                </label>
-              </div>
-              <div class="hint">You can customize these options later if needed.</div>
-            </div>
-
-            <div class="field">
-              <label for="color">Color / design</label>
-              <input id="color" type="text" placeholder="e.g. Black / Neon Green grip" />
-              <div class="hint">Optional. Helps us match the correct style.</div>
-            </div>
-
-            <div class="field">
-              <label for="neededBy">Needed by (date)</label>
-              <input id="neededBy" type="date" />
-              <div class="hint">When you’d like these socks in the park.</div>
-            </div>
-          </div>
-
-          <div class="field" style="margin-top: 10px;">
-            <label>Size breakdown</label>
-            <div class="sizes-grid">
-              <div class="sizes-header">
-                <div>Category</div>
-                <div>XS</div>
-                <div>S</div>
-                <div>M</div>
-                <div>L</div>
-                <div>XL</div>
-                <div>XXL</div>
-              </div>
-              <div class="sizes-row">
-                <div>Guests</div>
-                <div><input type="number" min="0" step="1" value="0" data-size="XS"></div>
-                <div><input type="number" min="0" step="1" value="0" data-size="S"></div>
-                <div><input type="number" min="0" step="1" value="0" data-size="M"></div>
-                <div><input type="number" min="0" step="1" value="0" data-size="L"></div>
-                <div><input type="number" min="0" step="1" value="0" data-size="XL"></div>
-                <div><input type="number" min="0" step="1" value="0" data-size="XXL"></div>
-              </div>
-              <div class="sizes-row">
-                <div>Staff (optional)</div>
-                <div><input type="number" min="0" step="1" value="0" data-size="XS" data-group="staff"></div>
-                <div><input type="number" min="0" step="1" value="0" data-size="S" data-group="staff"></div>
-                <div><input type="number" min="0" step="1" value="0" data-size="M" data-group="staff"></div>
-                <div><input type="number" min="0" step="1" value="0" data-size="L" data-group="staff"></div>
-                <div><input type="number" min="0" step="1" value="0" data-size="XL" data-group="staff"></div>
-                <div><input type="number" min="0" step="1" value="0" data-size="XXL" data-group="staff"></div>
+    <main>
+      <!-- LEFT: TABLE -->
+      <section class="card">
+        <div class="card-inner">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Sock Styles & Sizes</div>
+              <div class="card-subtitle">
+                Only available sizes are editable. Totals update automatically as you type.
               </div>
             </div>
-            <div class="hint">Enter quantities for each size. The total pairs will update on the right.</div>
+            <div class="badge-soft">
+              <span id="availabilityNote">Live catalog</span>
+            </div>
           </div>
-        </section>
 
-        <!-- Section 3: Logistics -->
-        <section class="card">
-          <h2>3 · Logistics <span>How should we route this order?</span></h2>
-          <div class="section">
-            <div class="field">
-              <label>Fulfillment</label>
-              <div class="pill-row" id="fulfillmentGroup">
-                <label class="pill-toggle pill-toggle-active">
-                  <input type="radio" name="fulfillment" value="Ship to park" checked />
-                  <span class="pill-dot"></span>
-                  <span>Ship to park</span>
-                </label>
-                <label class="pill-toggle">
-                  <input type="radio" name="fulfillment" value="Add to next standard shipment" />
-                  <span class="pill-dot"></span>
-                  <span>Add to next standard shipment</span>
-                </label>
-                <label class="pill-toggle">
-                  <input type="radio" name="fulfillment" value="Hold for pickup" />
-                  <span class="pill-dot"></span>
-                  <span>Hold for pickup</span>
-                </label>
+          <div class="table-wrapper">
+            <table id="sockTable">
+              <thead>
+                <tr id="tableHeaderRow"></tr>
+              </thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: SUMMARY / ORDER TEXT -->
+      <section class="card">
+        <div class="card-inner">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Order Summary</div>
+              <div class="card-subtitle">
+                We’ll format this for you with case packs and totals.
               </div>
             </div>
-
-            <div class="field">
-              <label for="notes">Notes for this order</label>
-              <textarea id="notes" placeholder="Any specific instructions, timing, or substitutions we should know about?"></textarea>
+            <div class="badge-soft">
+              <span>Pairs & styles</span>
             </div>
           </div>
 
-          <div class="footer-row">
-            <div class="small-muted">
-              You’ll be able to copy this summary into email, Slack, or your workflow tool.
-            </div>
-            <button type="button" id="reviewButton" class="primary-button">
-              <span>Copy order summary</span>
-              <span>⌘C</span>
-            </button>
-          </div>
-          <div id="copyStatus" class="small-muted" style="text-align:right;"></div>
-        </section>
-      </div>
-
-      <!-- RIGHT: SUMMARY -->
-      <aside class="summary-card">
-        <section class="card">
-          <div class="summary-header">
-            <h2>Summary</h2>
-            <div class="summary-chip" id="summaryParkLabel">No park selected</div>
-          </div>
-          <p class="summary-main-number" id="summaryTotalPairs">
-            0<span>pairs</span>
-          </p>
-          <p class="summary-subline" id="summarySubline">
-            Start by choosing a park and entering sizes.
-          </p>
-
-          <div class="divider"></div>
-
-          <div>
-            <div class="summary-section-title">Sizes</div>
-            <div id="summarySizes">
-              <p class="small-muted">No sizes yet.</p>
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
-          <div>
-            <div class="summary-section-title">Sock &amp; logistics</div>
+          <div class="summary-grid">
             <div class="summary-row">
-              <span>Type</span>
-              <strong id="summarySockType">Standard Grip</strong>
+              <div class="summary-kpis">
+                <div class="kpi">
+                  <span class="label">Total pairs</span>
+                  <span class="value" id="totalPairs">0</span>
+                </div>
+                <div class="kpi">
+                  <span class="label">Styles with qty &gt; 0</span>
+                  <span class="value" id="stylesWithQty">0</span>
+                </div>
+              </div>
             </div>
-            <div class="summary-row">
-              <span>Color / design</span>
-              <span id="summaryColor" class="small-muted">Not specified</span>
-            </div>
-            <div class="summary-row">
-              <span>Fulfillment</span>
-              <span id="summaryFulfillment" class="small-muted">Ship to park</span>
-            </div>
-            <div class="summary-row">
-              <span>Needed by</span>
-              <span id="summaryNeededBy" class="small-muted">Not set</span>
+
+            <div class="order-text-wrap">
+             
+              <textarea id="orderText" spellcheck="false"></textarea>
+              <div class="summary-row">
+                <button id="copyBtn" type="button">📋 Copy order text</button>
+                <div class="copy-status" id="copyStatus"></div>
+              </div>
             </div>
           </div>
-
-          <div class="divider"></div>
-
-          <div>
-            <div class="summary-section-title">Status</div>
-            <div class="summary-tag summary-tag-primary" id="summaryStatusTag">
-              <span class="summary-dot"></span>
-              <span>Draft order</span>
-            </div>
-            <p class="small-muted" style="margin-top:4px;">
-              When everything looks right, use “Copy order summary” to paste into email, Slack, or your internal system.
-            </p>
-          </div>
-        </section>
-      </aside>
-    </div>
+        </div>
+      </section>
+    </main>
   </div>
 
   <script>
-    (function () {
-      const parkSelect = document.getElementById("park");
-      const nameInput = document.getElementById("contactName");
-      const emailInput = document.getElementById("contactEmail");
-      const colorInput = document.getElementById("color");
-      const neededByInput = document.getElementById("neededBy");
-      const notesInput = document.getElementById("notes");
-      const parkError = document.getElementById("parkError");
+    // -----------------------------
+    // 1. DATA (from your /data folder)
+    // -----------------------------
 
-      const sizeInputs = document.querySelectorAll('.sizes-grid input[type="number"]');
+    const CATALOG = {
+      "parks": [
+        {"id": "appleton","name": "Altitude Appleton","city": "Appleton","state": "WI"},
+        {"id": "gastonia","name": "Altitude Gastonia","city": "Gastonia","state": "NC"},
+        {"id": "lombard","name": "Altitude Lombard","city": "Lombard","state": "IL"},
+        {"id": "pueblo","name": "Altitude Pueblo","city": "Pueblo","state": "CO"},
+        {"id": "sanjose","name": "Altitude San Jose","city": "San Jose","state": "CA"},
+        {"id": "york","name": "Altitude York","city": "York","state": "PA"}
+      ],
+      "styles": [
+        {
+          "id": "sapphire",
+          "name": "Sapphire",
+          "sizes": ["I","T","S","M","L","XL","XXL"],
+          "image": "https://alma-fit.com/cdn/shop/files/0000_033.jpg?v=1740230889&width=1000"
+        },
+        {
+          "id": "bliss",
+          "name": "Bliss",
+          "sizes": ["I","T","S","M","L","XL","XXL"],
+          "image": "https://alma-fit.com/cdn/shop/files/0000_117.jpg?v=1740231869&width=1000"
+        },
+        {
+          "id": "onyx",
+          "name": "Onyx",
+          "sizes": ["I","T","S","M","L","XL","XXL"],
+          "image": "https://alma-fit.com/cdn/shop/files/0000_084.jpg?v=1740231473&width=1000"
+        },
+        {
+          "id": "blaze",
+          "name": "Blaze",
+          "sizes": ["I","T","S","M","L","XL","XXL"],
+          "image": "https://alma-fit.com/cdn/shop/files/0002_023.jpg?v=1740418912&width=1000"
+        },
+        {
+          "id": "pulse",
+          "name": "Pulse",
+          "sizes": ["I","T","S","M","L","XL","XXL"],
+          "image": "https://alma-fit.com/cdn/shop/files/0005_026.jpg?v=1738887376&width=1000"
+        },
+        {
+          "id": "leopard",
+          "name": "Leopard",
+          "sizes": ["I","T","S","M","L","XL","XXL"],
+          "image": "https://alma-fit.com/cdn/shop/files/0002_053.jpg?v=1740419303&width=1000"
+        },
+        {
+          "id": "tiger",
+          "name": "Tiger",
+          "sizes": ["I","T","S","M","L","XL","XXL"],
+          "image": "https://alma-fit.com/cdn/shop/files/0002_062.jpg?v=1740419437&width=1000"
+        },
+        {
+          "id": "blueblack",
+          "name": "Blue-Black",
+          "sizes": ["I","T","S","M","L","XL","XXL"],
+          "image": "https://alma-fit.com/cdn/shop/files/0002_064.jpg?v=1740419450&width=1000"
+        },
+        {
+          "id": "skyblue",
+          "name": "Skyblue",
+          "sizes": ["T","S"],
+          "image": "https://alma-fit.com/cdn/shop/files/interim.jpg?v=1755198492&width=1000"
+        },
+        {
+          "id": "purple",
+          "name": "Purple",
+          "sizes": ["M"],
+          "image": "https://alma-fit.com/cdn/shop/files/interim2.jpg?v=1756283501&width=1000"
+        },
+        {
+          "id": "partybag",
+          "name": "Party Bag (100 Pair)",
+          "sizes": ["ONESIZE"],
+          "image": "https://images.squarespace-cdn.com/content/v1/5be61f6afcf7fddb2164ae62/1542166831529-KYJW2GPJP999AIGDAESZ/image-asset.jpeg?format=1000w"
+        }
+      ],
+      "casePacks": [
+        {
+          "id": "defaultMain",
+          "packs": {"I": 200,"T": 200,"S": 200,"M": 200,"L": 200,"XL": 200,"XXL": 200}
+        },
+        {
+          "id": "sapphire",
+          "packs": {"I": 200,"T": 200,"S": 200,"M": 200,"L": 200,"XL": 200,"XXL": 200}
+        },
+        {
+          "id": "leopard",
+          "packs": {"T": 300,"S": 300,"M": 300,"L": 300,"XL": 300}
+        },
+        {
+          "id": "tiger",
+          "packs": {"T": 300,"S": 300,"M": 300,"L": 300,"XL": 300}
+        },
+        {
+          "id": "blueblack",
+          "packs": {"I": 300,"T": 300,"S": 300,"M": 300,"L": 300,"XL": 300,"XXL": 300}
+        },
+        {
+          "id": "skyblue",
+          "packs": {"T": 300,"S": 300}
+        },
+        {
+          "id": "purple",
+          "packs": {"M": 300}
+        },
+        {
+          "id": "partybag",
+          "packs": {"ONESIZE": 100}
+        }
+      ],
+      "defaultCasePacks": {
+        "sapphire": "defaultMain",
+        "bliss": "defaultMain",
+        "onyx": "defaultMain",
+        "blaze": "defaultMain",
+        "pulse": "defaultMain",
+        "leopard": "leopard",
+        "tiger": "defaultMain",
+        "blueblack": "defaultMain",
+        "skyblue": {"T": 300,"S": 300},
+        "purple": {"M": 300},
+        "partybag": {"ONESIZE": 100}
+      }
+    };
 
-      const summaryParkLabel = document.getElementById("summaryParkLabel");
-      const summaryTotalPairs = document.getElementById("summaryTotalPairs");
-      const summarySubline = document.getElementById("summarySubline");
-      const summarySizes = document.getElementById("summarySizes");
-      const summarySockType = document.getElementById("summarySockType");
-      const summaryColor = document.getElementById("summaryColor");
-      const summaryFulfillment = document.getElementById("summaryFulfillment");
-      const summaryNeededBy = document.getElementById("summaryNeededBy");
-      const summaryStatusTag = document.getElementById("summaryStatusTag");
-      const reviewButton = document.getElementById("reviewButton");
-      const copyStatus = document.getElementById("copyStatus");
+    const AVAILABILITY = {
+      "updatedAt": "2025-12-04T00:00:00Z",
+      "styles": {
+        "sapphire": { "I": true, "T": true, "S": true, "M": true, "L": true, "XL": false, "XXL": false },
+        "bliss":    { "I": true, "T": true, "S": true, "M": true, "L": true, "XL": false, "XXL": false },
+        "onyx":     { "I": true, "T": true, "S": false, "M": true, "L": true, "XL": false, "XXL": false },
+        "blaze":    { "I": false,"T": false, "S": false,"M": true, "L": true, "XL": false, "XXL": false },
+        "pulse":    { "I": false, "T": true, "S": false,"M": false,"L": true, "XL": false, "XXL": false },
+        "leopard":  { "I": false,"T": true, "S": false,"M": true, "L": true, "XL": true,  "XXL": false },
+        "tiger":    { "I": false,"T": false,"S": false,"M": true, "L": true, "XL": true,  "XXL": false },
+        "blueblack":{ "I": false,"T": false,"S": false,"M": false,"L": false,"XL": false, "XXL": false },
+        "skyblue":  { "T": true, "S": true },
+        "purple":   { "M": false },
+        "partybag": { "ONESIZE": true }
+      }
+    };
 
-      const sockTypeGroup = document.getElementById("sockTypeGroup");
-      const fulfillmentGroup = document.getElementById("fulfillmentGroup");
+    const SIZE_ORDER = ["I", "T", "S", "M", "L", "XL", "XXL", "ONESIZE"];
 
-      function formatDateForSummary(value) {
-        if (!value) return "Not set";
-        const d = new Date(value + "T00:00:00");
-        if (isNaN(d.getTime())) return value;
-        return d.toLocaleDateString(undefined, {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
+    const STYLE_MAP = {};
+    CATALOG.styles.forEach(s => { STYLE_MAP[s.id] = s; });
+
+    const CASE_PACK_MAP = {};
+    CATALOG.casePacks.forEach(cp => { CASE_PACK_MAP[cp.id] = cp; });
+
+    const PARK_MAP = {};
+    CATALOG.parks.forEach(p => { PARK_MAP[p.id] = p; });
+
+    // -----------------------------
+    // 2. DOM HOOKS
+    // -----------------------------
+    const parkSelect = document.getElementById("parkSelect");
+    const tableHeaderRow = document.getElementById("tableHeaderRow");
+    const tableBody = document.getElementById("tableBody");
+    const totalPairsEl = document.getElementById("totalPairs");
+    const stylesWithQtyEl = document.getElementById("stylesWithQty");
+    const orderTextEl = document.getElementById("orderText");
+    const copyBtn = document.getElementById("copyBtn");
+    const copyStatusEl = document.getElementById("copyStatus");
+    const clearAllBtn = document.getElementById("clearAllBtn");
+    const availabilityStamp = document.getElementById("availabilityStamp");
+    const availabilityNote = document.getElementById("availabilityNote");
+
+    // -----------------------------
+    // 3. INIT
+    // -----------------------------
+
+    function initApp() {
+      initParkSelect();
+      initTableHeader();
+      buildTableBody();
+      updateAvailabilityStamp();
+      attachEvents();
+      updateOrderSummary();
+    }
+
+    function initParkSelect() {
+      CATALOG.parks.forEach(park => {
+        const opt = document.createElement("option");
+        opt.value = park.id;
+        opt.textContent = `${park.name} (${park.city}, ${park.state})`;
+        parkSelect.appendChild(opt);
+      });
+    }
+
+    function initTableHeader() {
+      const sizes = SIZE_ORDER;
+      const headerCells = [];
+
+      // First col: style
+      headerCells.push(`<th class="style-col">Style</th>`);
+      headerCells.push(`<th class="size-col">Preview</th>`);
+
+      sizes.forEach(sizeCode => {
+        let label = sizeCode;
+        if (sizeCode === "I") label = "I (Infant)";
+        if (sizeCode === "T") label = "T (Toddler)";
+        if (sizeCode === "S") label = "S (Small)";
+        if (sizeCode === "M") label = "M (Medium)";
+        if (sizeCode === "L") label = "L (Large)";
+        if (sizeCode === "XL") label = "XL";
+        if (sizeCode === "XXL") label = "XXL";
+        if (sizeCode === "ONESIZE") label = "One Size";
+
+        headerCells.push(`<th class="size-col">${label}</th>`);
+      });
+
+      headerCells.push(`<th class="total-col">Total Style</th>`);
+
+      tableHeaderRow.innerHTML = headerCells.join("");
+    }
+
+    function buildTableBody() {
+      tableBody.textContent = ""; // clear
+
+      CATALOG.styles.forEach(style => {
+        const row = document.createElement("tr");
+        row.dataset.styleId = style.id;
+
+        const nameTd = document.createElement("td");
+        nameTd.className = "style-name";
+        nameTd.textContent = style.name;
+        row.appendChild(nameTd);
+
+        // Image
+        const imgTd = document.createElement("td");
+        imgTd.className = "image-cell";
+        if (style.image) {
+          const img = document.createElement("img");
+          img.src = style.image;
+          img.alt = style.name;
+          img.loading = "lazy";
+          imgTd.appendChild(img);
+          const sm = document.createElement("small");
+          sm.textContent = style.id;
+          imgTd.appendChild(sm);
+        } else {
+          imgTd.textContent = "—";
+        }
+        row.appendChild(imgTd);
+
+        const availStyles = (AVAILABILITY && AVAILABILITY.styles) || {};
+        const styleAvail = availStyles[style.id] || {};
+
+        SIZE_ORDER.forEach(sizeCode => {
+          const td = document.createElement("td");
+          td.classList.add("size-col");
+
+          const allowedInCatalog = style.sizes.indexOf(sizeCode) !== -1;
+          const isAvailable = !!styleAvail[sizeCode];
+
+          if (allowedInCatalog && isAvailable) {
+            const input = document.createElement("input");
+            input.type = "number";
+            input.min = "0";
+            input.step = "1";
+            input.value = "0";
+            input.dataset.styleId = style.id;
+            input.dataset.sizeCode = sizeCode;
+            input.addEventListener("input", handleQtyChange);
+            td.appendChild(input);
+          } else if (allowedInCatalog && !isAvailable) {
+            td.classList.add("disabled");
+            td.textContent = "OOS";
+          } else {
+            td.classList.add("disabled");
+            td.textContent = "—";
+          }
+
+          row.appendChild(td);
         });
+
+        const totalTd = document.createElement("td");
+        totalTd.className = "style-total total-col";
+        totalTd.textContent = "0";
+        row.appendChild(totalTd);
+
+        tableBody.appendChild(row);
+      });
+    }
+
+    function updateAvailabilityStamp() {
+      if (!AVAILABILITY || !AVAILABILITY.updatedAt) {
+        availabilityStamp.textContent = "Availability: unknown";
+        availabilityNote.textContent = "Live catalog";
+        return;
       }
 
-      function updatePillGroup(groupEl) {
-        groupEl.querySelectorAll(".pill-toggle").forEach((label) => {
-          const input = label.querySelector("input");
-          if (input && input.checked) {
-            label.classList.add("pill-toggle-active");
+      const d = new Date(AVAILABILITY.updatedAt);
+      const formatted = d.toLocaleString(undefined, {
+        month: "short",
+        day: "numeric",
+        year: "numeric"
+      });
+
+      availabilityStamp.textContent = `Availability as of ${formatted}`;
+      availabilityNote.textContent = "Availability applied";
+    }
+
+    function attachEvents() {
+      copyBtn.addEventListener("click", handleCopy);
+      clearAllBtn.addEventListener("click", handleClearAll);
+      parkSelect.addEventListener("change", updateOrderSummary);
+    }
+
+    // -----------------------------
+    // 4. CASE PACK HELPERS
+    // -----------------------------
+    function getCasePack(styleId, size) {
+      const defaultEntry = CATALOG.defaultCasePacks[styleId];
+
+      let specificPack = null;
+      if (defaultEntry && typeof defaultEntry === "string") {
+        const cp = CASE_PACK_MAP[defaultEntry];
+        if (cp && cp.packs[size]) {
+          specificPack = cp.packs[size];
+        }
+      } else if (defaultEntry && typeof defaultEntry === "object") {
+        if (defaultEntry[size]) {
+          specificPack = defaultEntry[size];
+        }
+      }
+
+      if (specificPack) return specificPack;
+
+      const generic = CASE_PACK_MAP["defaultMain"];
+      if (generic && generic.packs[size]) {
+        return generic.packs[size];
+      }
+
+      return null;
+    }
+
+    // -----------------------------
+    // 5. ORDER SUMMARY
+    // -----------------------------
+
+    function handleQtyChange() {
+      if (this.value === "" || Number(this.value) < 0) {
+        this.value = "0";
+      }
+      updateOrderSummary();
+    }
+
+    function handleClearAll() {
+      const inputs = tableBody.querySelectorAll("input[type='number']");
+      inputs.forEach(input => {
+        input.value = "0";
+      });
+      updateOrderSummary();
+    }
+
+    function handleCopy() {
+      const text = orderTextEl.value.trim();
+      if (!text) {
+        copyStatusEl.textContent = "Nothing to copy yet.";
+        return;
+      }
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          copyStatusEl.textContent = "Copied to clipboard.";
+          setTimeout(() => {
+            copyStatusEl.textContent = "";
+          }, 2000);
+        })
+        .catch(() => {
+          copyStatusEl.textContent = "Unable to copy automatically.";
+        });
+    }
+
+    function updateOrderSummary() {
+      const orders = {};
+      const styleTotals = {};
+
+      const inputs = tableBody.querySelectorAll("input[data-style-id]");
+      inputs.forEach(input => {
+        const styleId = input.dataset.styleId;
+        const size = input.dataset.sizeCode;
+        const qty = parseInt(input.value, 10) || 0;
+
+        if (!styleTotals[styleId]) styleTotals[styleId] = 0;
+        styleTotals[styleId] += qty;
+
+        if (qty > 0) {
+          if (!orders[styleId]) orders[styleId] = {};
+          orders[styleId][size] = qty;
+        }
+      });
+
+      // Update per-style totals in table
+      const rows = tbody.querySelectorAll("tr");
+      rows.forEach(row => {
+        const styleId = row.dataset.styleId;
+        const td = row.querySelector(".style-total");
+        const total = styleTotals[styleId] || 0;
+        if (td) td.textContent = String(total);
+      });
+
+      const totalPairs = Object.keys(styleTotals).reduce(
+        (sum, sid) => sum + (styleTotals[sid] || 0),
+        0
+      );
+      totalPairsEl.textContent = String(totalPairs);
+
+      const stylesWithQty = Object.keys(orders).length;
+      stylesWithQtyEl.textContent = String(stylesWithQty);
+
+      const parkId = parkSelect.value;
+      const parkName = parkId && PARK_MAP[parkId]
+        ? PARK_MAP[parkId].name
+        : "________";
+
+      const lines = [];
+      lines.push("Altitude Socks Order");
+      lines.push("--------------------");
+      lines.push(`Park: ${parkName}`);
+      lines.push("");
+
+      const styleIds = Object.keys(orders);
+
+      styleIds.sort((a, b) => {
+        const sa = STYLE_MAP[a]?.name || a;
+        const sb = STYLE_MAP[b]?.name || b;
+        return sa.localeCompare(sb);
+      });
+
+      styleIds.forEach(styleId => {
+        const style = STYLE_MAP[styleId];
+        const styleName = style ? style.name : styleId;
+        lines.push(styleName + ":");
+
+        const sizeEntries = Object.entries(orders[styleId]);
+        sizeEntries.sort((a, b) => {
+          const ia = SIZE_ORDER.indexOf(a[0]);
+          const ib = SIZE_ORDER.indexOf(b[0]);
+          return ia - ib;
+        });
+
+        const parts = sizeEntries.map(([size, qty]) => {
+          const pack = getCasePack(styleId, size);
+          if (pack) {
+            const cases = Math.ceil(qty / pack);
+            return (
+              size +
+              " x " +
+              qty +
+              " (" +
+              cases +
+              " case" +
+              (cases > 1 ? "s" : "") +
+              " of " +
+              pack +
+              ")"
+            );
           } else {
-            label.classList.remove("pill-toggle-active");
+            return size + " x " + qty;
           }
         });
+
+        lines.push("  " + parts.join(", "));
+        lines.push("");
+      });
+
+      if (styleIds.length > 0) {
+        lines.push("");
       }
+      lines.push("Total pairs: " + totalPairs);
 
-      // Initial pill states
-      updatePillGroup(sockTypeGroup);
-      updatePillGroup(fulfillmentGroup);
+      orderTextEl.value = lines.join("\n");
+    }
 
-      sockTypeGroup.addEventListener("change", () => {
-        updatePillGroup(sockTypeGroup);
-        const checked = sockTypeGroup.querySelector("input:checked");
-        summarySockType.textContent = checked ? checked.value : "Standard Grip";
-        updateStatusTag();
-      });
-
-      fulfillmentGroup.addEventListener("change", () => {
-        updatePillGroup(fulfillmentGroup);
-        const checked = fulfillmentGroup.querySelector("input:checked");
-        summaryFulfillment.textContent = checked ? checked.value : "Ship to park";
-        updateStatusTag();
-      });
-
-      parkSelect.addEventListener("change", () => {
-        if (parkSelect.value) {
-          summaryParkLabel.textContent = parkSelect.value;
-          parkError.classList.remove("error-visible");
-        } else {
-          summaryParkLabel.textContent = "No park selected";
-        }
-        updateStatusTag();
-      });
-
-      colorInput.addEventListener("input", () => {
-        summaryColor.textContent = colorInput.value.trim() || "Not specified";
-      });
-
-      neededByInput.addEventListener("input", () => {
-        summaryNeededBy.textContent = formatDateForSummary(neededByInput.value);
-        updateStatusTag();
-      });
-
-      sizeInputs.forEach((input) => {
-        input.addEventListener("input", () => {
-          if (input.value && Number(input.value) < 0) input.value = 0;
-          updateSizesSummary();
-        });
-      });
-
-      function updateSizesSummary() {
-        const sizeTotals = {};
-        sizeInputs.forEach((input) => {
-          const size = input.getAttribute("data-size");
-          const group = input.getAttribute("data-group") || "guests";
-          const key = size + "|" + group;
-          const value = parseInt(input.value, 10);
-          if (!size || isNaN(value) || value <= 0) return;
-          sizeTotals[key] = (sizeTotals[key] || 0) + value;
-        });
-
-        const aggregateBySize = {};
-        sizeInputs.forEach((input) => {
-          const size = input.getAttribute("data-size");
-          const group = input.getAttribute("data-group") || "guests";
-          const key = size + "|" + group;
-          const value = parseInt(input.value, 10);
-          if (!size || isNaN(value) || value <= 0) return;
-          aggregateBySize[size] = (aggregateBySize[size] || 0) + value;
-        });
-
-        const totalPairs = Object.values(aggregateBySize).reduce(
-          (sum, v) => sum + v,
-          0
-        );
-
-        // Update main number
-        summaryTotalPairs.innerHTML =
-          totalPairs + '<span>pairs</span>';
-
-        if (totalPairs === 0) {
-          summarySubline.textContent =
-            "Enter at least one size to start this order.";
-          summarySizes.innerHTML =
-            '<p class="small-muted">No sizes yet.</p>';
-        } else {
-          summarySubline.textContent =
-            "Review the breakdown below before you submit.";
-          const rows = Object.keys(aggregateBySize)
-            .sort((a, b) => {
-              const order = ["XS","S","M","L","XL","XXL"];
-              return order.indexOf(a) - order.indexOf(b);
-            })
-            .map((size) => {
-              return (
-                '<div class="summary-row">' +
-                  '<span>' + size + '</span>' +
-                  '<strong>' + aggregateBySize[size] + ' pair' + (aggregateBySize[size] !== 1 ? "s" : "") + '</strong>' +
-                '</div>'
-              );
-            })
-            .join("");
-
-          summarySizes.innerHTML = rows;
-        }
-
-        updateStatusTag();
-      }
-
-      function updateStatusTag() {
-        const totalPairsText = summaryTotalPairs.textContent.trim();
-        const totalPairs = parseInt(totalPairsText, 10) || 0;
-        const parkSelected = !!parkSelect.value;
-        const neededBy = neededByInput.value;
-
-        summaryStatusTag.querySelector("span:nth-child(2)").textContent =
-          totalPairs === 0
-            ? "Draft order"
-            : parkSelected && neededBy
-            ? "Ready to send"
-            : "Missing details";
-
-        // we could adjust dot color if we wanted; keeping accent for now
-      }
-
-      function buildOrderSummaryText() {
-        const park = parkSelect.value || "—";
-        const name = nameInput.value || "—";
-        const email = emailInput.value || "—";
-        const sockTypeEl = sockTypeGroup.querySelector("input:checked");
-        const sockType = sockTypeEl ? sockTypeEl.value : "Standard Grip";
-        const color = colorInput.value || "Not specified";
-        const neededBy = summaryNeededBy.textContent || "Not set";
-        const fulfillmentEl = fulfillmentGroup.querySelector("input:checked");
-        const fulfillment = fulfillmentEl ? fulfillmentEl.value : "Ship to park";
-        const notes = (notesInput.value || "").trim();
-
-        const totalsBySize = {};
-        sizeInputs.forEach((input) => {
-          const size = input.getAttribute("data-size");
-          const value = parseInt(input.value, 10);
-          if (!size || isNaN(value) || value <= 0) return;
-          totalsBySize[size] = (totalsBySize[size] || 0) + value;
-        });
-
-        const sizeLines = Object.keys(totalsBySize)
-          .sort((a, b) => {
-            const order = ["XS","S","M","L","XL","XXL"];
-            return order.indexOf(a) - order.indexOf(b);
-          })
-          .map((size) => `  • ${size}: ${totalsBySize[size]} pair(s)`)
-          .join("\n");
-
-        const totalPairs = Object.values(totalsBySize).reduce(
-          (sum, v) => sum + v,
-          0
-        );
-
-        let text = "";
-        text += "AMG Sock Order\n";
-        text += "====================\n\n";
-        text += `Park: ${park}\n`;
-        text += `Requested by: ${name}\n`;
-        text += `Email: ${email}\n\n`;
-        text += `Sock type: ${sockType}\n`;
-        text += `Color / design: ${color}\n`;
-        text += `Needed by: ${neededBy}\n`;
-        text += `Fulfillment: ${fulfillment}\n\n`;
-        text += `Total pairs: ${totalPairs}\n`;
-        text += "Size breakdown:\n";
-        text += sizeLines || "  • (no sizes entered)\n";
-        text += "\n";
-        text += "Notes:\n";
-        text += notes ? notes + "\n" : "(none)\n";
-
-        return text;
-      }
-
-      reviewButton.addEventListener("click", async () => {
-        copyStatus.textContent = "";
-        if (!parkSelect.value) {
-          parkError.classList.add("error-visible");
-          parkSelect.focus();
-          return;
-        }
-
-        const summaryText = buildOrderSummaryText();
-
-        try {
-          await navigator.clipboard.writeText(summaryText);
-          copyStatus.textContent = "Order summary copied to clipboard.";
-        } catch (err) {
-          console.warn("Clipboard write failed:", err);
-          copyStatus.textContent =
-            "Could not copy automatically. You can select the text from the summary card.";
-        }
-      });
-
-      // Initialize sizes summary
-      updateSizesSummary();
-    })();
+    document.addEventListener("DOMContentLoaded", initApp);
   </script>
 </body>
 </html>
